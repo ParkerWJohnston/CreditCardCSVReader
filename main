@@ -50,7 +50,7 @@ for x in yearList:
 
 for x in purchaseList:
     for y in yearMonthPairList:
-        if (x["Year"] == y["Year"] and x["Month"] == y["Month"]):
+        if (x["Year"] == y["Year"] and x["Month"] == y["Month"]): #match to month and year
             if (x["Name"] in foodNames):
                 y["Food Total"] += float(x["Price"])
             elif (x["Name"] in entertainmentNames):
