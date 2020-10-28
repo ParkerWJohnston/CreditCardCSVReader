@@ -1,0 +1,67 @@
+foodNames = ["SKIPTHEDISHES", "GAMI SUSHI", "Subway 10536", "MCDONALD'S #10430 MYMCDS", "KFC #1836", "DOMINOS PIZZA 10050",
+             "VANDONER SHAWARMA LTD", "COCO FRESH TEA & JUICE", "UBR* PENDING.UBER.COM",
+             "FIVE GUYS BURGERS & FR", "BUBBLE WAFFLE RICHMOND CE", "7 ELEVEN STORE #27128", "MCDONALD'S #1197 MYMCDS"]
+entertainmentNames = ["RiotGam*LoL LN0VY9BLC3", "TWITCH"]
+billNames = ["BELL CANADA (OB)"]
+projectNames = [""]
+
+filename = "accountactivity.csv"  # input("Filename:")
+file = open(filename, "r")
+
+purchaseList = []
+
+for x in file:
+    item = x.split(',')
+    date = item[0].split('/')
+    itemDict = {
+        "Month": date[0],
+        "Day": date[1],
+        "Year": date[2],
+        "Name": item[1],
+        "Price": item[2]
+    }
+    if(itemDict["Price"] != ''):
+        purchaseList.append(itemDict)
+
+yearList = []
+monthList = []
+
+for x in purchaseList:
+    print(x)  # get every month and year from this csv
+    if (x["Year"] not in yearList):
+        yearList.append(x["Year"])
+    if (x["Month"] not in monthList):
+        monthList.append(x["Month"])
+
+yearMonthPairList = []
+
+for x in yearList:
+    for y in monthList:
+        monthDict = {
+            "Year": x,
+            "Month": y,
+            "Food Total": 0.0,
+            "Entertainment Total": 0.0,
+            "Bill Total": 0.0,
+            "Project Total": 0.0,
+            "Other Total": 0.0
+        }
+        yearMonthPairList.append(monthDict)
+
+for x in purchaseList:
+    for y in yearMonthPairList:
+        if (x["Year"] == y["Year"] and x["Month"] == y["Month"]):
+            if (x["Name"] in foodNames):
+                y["Food Total"] += float(x["Price"])
+            elif (x["Name"] in entertainmentNames):
+                y["Entertainment Total"] += float(x["Price"])
+            elif (x["Name"] in billNames):
+                y["Bill Total"] += float(x["Price"])
+            elif (x["Name"] in projectNames):
+                y["Project Total"] += float(x["Price"])
+            else:
+                print(x["Name"])
+                y["Other Total"] += float(x["Price"])
+
+for x in yearMonthPairList:
+    print(x)
